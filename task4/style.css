@@ -1,6 +1,7 @@
 @import "/styles/reset.css";
 body,
-ul {
+ul,
+p {
   margin: 0;
 }
 .clearfix::before,

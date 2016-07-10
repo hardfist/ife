@@ -4,20 +4,34 @@
   <meta charset="UTF-8">
   <title>Title</title>
   <style>
-    .container{
-      width: 500px;
-      height: 500px;
-      display: table;
+    html,body{
+      height: 100%;
+      margin: 0;
+    }
+    .wrapper{
+      min-height: 100%;
+      margin-bottom: -50px;
       background: antiquewhite;
     }
-    .container p{
-      display: table-cell;
+    .wrapper::after{
+      content: '';
+      display: block;
+      height: 50px;
+    }
+    .footer{
+      height: 50px;
+      background: red;
     }
   </style>
 </head>
 <body>
-<div class="container">
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eum possimus praesentium ullam vel. A, ab aspernatur culpa dolorum esse eveniet inventore iste pariatur quos sed? Enim, magnam recusandae. Numquam?Lorem ipsum dolor sit amet, consectetur adipisicing elit. A adipisci assumenda at commodi culpa dicta dolorum esse, excepturi illum labore nostrum odio omnis optio placeat qui quod totam ullam ut?</p>
+<div class="wrapper">
+  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet blanditiis doloribus ducimus ea perspiciatis ratione sunt tempora voluptate? Dolore eos esse iste iure labore maiores maxime modi officiis qui temporibus.
+  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aliquid aut earum iure maiores molestiae nemo nihil nisi numquam odio praesentium, quae, quam recusandae sapiente similique velit vitae voluptatem voluptates.
+  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis, illum, reprehenderit? Aliquam architecto consequuntur dolore ea eaque est explicabo facilis fugiat, laudantium maiores numquam odio odit officiis possimus quis repellat.
+  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur corporis doloremque dolorum explicabo facere iste laudantium magni nesciunt nulla optio provident, quas repellendus saepe sapiente sit totam veniam veritatis vitae.
+  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad dicta in ipsa minima modi mollitia officia provident sed! Adipisci consequatur cumque dolorum expedita minima modi nisi quis similique. Incidunt, voluptatibus?
 </div>
+<footer class="footer"></footer>
 </body>
 </html>
