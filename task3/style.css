@@ -1,0 +1,65 @@
+@import "/styles/reset.css";
+body,
+ul {
+  margin: 0;
+}
+.clearfix::before,
+.clearfix::after {
+  content: '';
+  display: block;
+}
+.clearfix::after {
+  clear: both;
+}
+.block {
+  display: block;
+}
+.inline-block {
+  display: inline-block;
+}
+.inline {
+  display: inline;
+}
+.content {
+  background: #eee;
+  padding: 20px;
+  border: 1px solid #999;
+  position: relative;
+}
+.content .logo {
+  background: #fff;
+  width: 200px;
+  float: left;
+  padding: 15px;
+  box-sizing: border-box;
+}
+.content .logo img {
+  width: 80px;
+  height: 80px;
+}
+.content .logo .desc {
+  margin-left: 5px;
+  vertical-align: top;
+}
+.content .main {
+  background: #fff;
+  padding: 15px;
+  margin-left: 220px;
+  margin-right: 140px;
+}
+.content .profile-logo {
+  background: #fff;
+  box-sizing: border-box;
+  padding: 15px;
+  width: 120px;
+  float: right;
+  text-align: center;
+}
+.content .profile-logo img {
+  margin-bottom: 20px;
+  width: 80px;
+  height: 80px;
+}
+.content .profile-logo img:last-of-type {
+  margin-bottom: 0;
+}
