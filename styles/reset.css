@@ -15,7 +15,7 @@ html {
  * Remove the margin in all browsers (opinionated).
  */
 
-body,ul{
+body{
     margin: 0;
 }
 
