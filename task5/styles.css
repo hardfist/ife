@@ -1,0 +1,188 @@
+@import "/styles/reset.css";
+body,
+ul {
+  margin: 0;
+}
+.clearfix::before,
+.clearfix::after {
+  content: '';
+  display: block;
+}
+.clearfix::after {
+  clear: both;
+}
+.block {
+  display: block;
+}
+.inline-block {
+  display: inline-block;
+}
+.inline {
+  display: inline;
+}
+.padding {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+img {
+  max-width: 100%;
+}
+header {
+  padding-left: 15px;
+  padding-right: 15px;
+  height: 55px;
+  line-height: 55px;
+  background: #333;
+}
+header .logo {
+  display: inline-block;
+  height: 55px;
+}
+header .logo .img-logo {
+  width: 120px;
+  height: 29px;
+  vertical-align: middle;
+}
+header nav {
+  float: right;
+  height: 55px;
+  line-height: 55px;
+}
+header nav li {
+  list-style: none;
+  width: 86px;
+  display: inline-block;
+  margin-left: 5px;
+}
+.content {
+  padding-left: 15px;
+  padding-right: 15px;
+  background: rgba(222, 222, 222, 0.2);
+  border: 1px solid transparent;
+}
+.content .main {
+  position: relative;
+}
+.content .left {
+  margin-right: 375px;
+}
+.content .left section {
+  background: #fff;
+  margin-top: 20px;
+  padding: 15px;
+}
+.content .left section h3 {
+  font-size: 16px;
+  font-weight: normal;
+  color: #666;
+}
+.content .left section .desc {
+  font-size: 14px;
+  font-weight: normal;
+  color: #666;
+}
+.content .left ul li {
+  list-style: none;
+}
+.content .left .figure-gallery .figure-wrapper {
+  float: left;
+}
+.content .left .figure-gallery .figure-wrapper figure {
+  margin-top: 8px;
+  display: inline-block;
+  border: 1px solid #eaeaea;
+  padding: 10px;
+}
+.content .left .figure-gallery .figure-wrapper figure figcaption {
+  text-align: center;
+  font-size: 12px;
+}
+.content .left .figure-gallery .figure-wrapper figure img {
+  width: 120px;
+  height: 120px;
+}
+.content .left table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+.content .left table,
+.content .left table tr,
+.content .left table th,
+.content .left table td {
+  border: 1px solid #eaeaea;
+}
+.content .left table colgroup.first {
+  width: 50%;
+}
+.content .left table colgroup.second {
+  width: 30%;
+}
+.content .left table colgroup.third {
+  width: 20%;
+}
+.content .left table thead {
+  background: #333333;
+  color: #fff;
+}
+.content .left table tfoot {
+  background: #eaeaea;
+  color: #000;
+  font-weight: bold;
+}
+.content .sidebar {
+  background: #fff;
+  box-sizing: border-box;
+  padding: 15px;
+  width: 365px;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.content .sidebar .title {
+  position: relative;
+  font-size: 16px;
+  font-weight: bold;
+  border-left: 4px solid #eaeaea;
+  padding: 10px;
+}
+.content .sidebar form .wrapper {
+  width: 500px;
+  padding: 15px;
+  margin-left: 122px;
+  position: relative;
+}
+.content .sidebar form .wrapper label {
+  position: absolute;
+  right: 100%;
+  white-space: nowrap;
+}
+.content .sidebar form .wrapper .prompt {
+  font-size: 12px;
+  font-weight: normal;
+  color: #999;
+}
+.content .sidebar form .wrapper input,
+.content .sidebar form .wrapper select {
+  margin-bottom: 20px;
+}
+.content .sidebar form input[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  background: #0000ff;
+  color: #fff;
+  border-radius: 5px;
+  font-size: 18px;
+}
+footer {
+  padding-left: 15px;
+  padding-right: 15px;
+  background: #333;
+  height: 50px;
+  text-align: center;
+}
+footer .copyright {
+  display: inline-block;
+  margin-top: 15px;
+  color: #fff;
+}
