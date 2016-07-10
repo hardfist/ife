@@ -1,0 +1,143 @@
+@import "../styles/global";
+header{
+  @height: 55px;
+  height: @height;
+  line-height: 55px;
+  background: #333;
+  .logo{
+    display: inline-block;
+    height: @height;
+    .img-logo{
+      width: 120px;
+      height: 29px;
+      vertical-align: middle;
+    }
+  }
+  nav{
+    float: right;
+    height: @height;
+    line-height: @height;
+    li{
+      list-style: none;
+      width: 86px;
+      display: inline-block;
+      margin-left: 5px;
+    }
+  }
+}
+.main{
+  width: 1200px;
+  margin: 0 auto;
+}
+.content{
+  background: rgba(222,222,222,0.2);
+  border: 1px solid transparent;
+  ul{
+    li {
+      list-style: none;
+    }
+  }
+  section{
+    background: #fff;
+    margin-top: 20px;
+    padding: 15px;
+    h3{
+      font-size: 16px;
+      font-weight: normal;
+      color: #666;
+    }
+    .desc{
+      font-size: 14px;
+      font-weight: normal;
+      color: #666;
+    }
+    &.sidebar{
+      .title{
+        position: relative;
+        font-size: 16px;
+        font-weight: bold;
+        border-left: 4px solid #eaeaea;
+        padding: 10px;
+      }
+      form{
+        .wrapper {
+          width: 500px;
+          padding: 15px;
+          margin: auto;
+          position: relative;
+          label {
+            position: absolute;
+            right: 100%;
+            white-space: nowrap;
+          }
+          .prompt {
+            font-size: 12px;
+            font-weight: normal;
+            color: #999;
+          }
+          input, select {
+            margin-bottom: 20px;
+          }
+        }
+        input[type="submit"]{
+         width: 100%;
+          padding: 10px;
+          background: #0000ff;
+          color: #fff;
+          border-radius: 5px;
+          font-size: 18px;
+        }
+      }
+    }
+  }
+  figure{
+    margin-top: 8px;
+    display: inline-block;
+    border: 1px solid #eaeaea;
+    padding: 10px;
+    figcaption{
+      text-align: center;
+      font-size: 12px;
+    }
+    img{
+      width: 120px;
+      height: 120px;
+    }
+  }
+  table{
+    &,tr,th,td{
+      border: 1px solid #eaeaea;
+    }
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    colgroup.first{
+      width: 50%;
+    }
+    colgroup.second{
+      width: 30%;
+    }
+    colgroup.third{
+      width: 20%;
+    }
+    thead{
+      background: rgb(51,51,51);
+      color: #fff;
+    }
+    tfoot{
+      background: #eaeaea;
+      color: #000;
+      font-weight: bold;
+    }
+  }
+}
+footer{
+  background: #333;
+  height: 50px;
+  text-align: center;
+  .copyright{
+    display: inline-block;
+    margin-top: 15px;
+    color: #fff;
+  }
+}
