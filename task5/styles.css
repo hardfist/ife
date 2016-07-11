@@ -1,8 +1,10 @@
 @import "/styles/reset.css";
 body,
 ul,
+li,
 p {
   margin: 0;
+  padding: 0;
 }
 .clearfix::before,
 .clearfix::after {

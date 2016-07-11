@@ -1,8 +1,10 @@
 @import "/styles/reset.css";
 body,
 ul,
+li,
 p {
   margin: 0;
+  padding: 0;
 }
 .clearfix::before,
 .clearfix::after {
@@ -60,7 +62,9 @@ body .wrapper header .logo .desc {
 body .wrapper header .time {
   float: right;
   color: #c9464a;
-  vertical-align: -12px;
+}
+body .wrapper header .time .text {
+  vertical-align: text-top;
 }
 body .wrapper .banner {
   margin-top: 35px;
