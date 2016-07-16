@@ -14,6 +14,9 @@ p {
 .clearfix::after {
   clear: both;
 }
+.center-block {
+  margin: 0 auto;
+}
 .block {
   display: block;
 }

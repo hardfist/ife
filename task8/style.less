@@ -1,0 +1,57 @@
+@import "../styles/global";
+@gap: 20px;
+@border-color: #999;
+@background-color: #eee;
+@grid-columns: 12;
+@screen-sm-min: 767px;
+@screen-sm-max: 768px;
+.make-column(@columns){
+  width: percentage(@columns/@grid-columns);
+}
+.generate-xs-columns(@n:@grid-columns,@i:1) when(@i =< @n){
+  .col-xs-@{i}{
+    .make-column(@i)
+  }
+  .generate-xs-columns(@n,(@i+1))
+}
+.generate-md-columns(@n:@grid-columns,@i:1) when(@i =< @n){
+  .col-md-@{i}{
+    .make-column(@i)
+  }
+  .generate-md-columns(@n,(@i+1))
+}
+.container{
+  .clearfix();
+  .center-block;
+  border: 1px solid @border-color;
+  background: #fff;
+  padding-left: @gap;
+  padding-right: @gap;
+  padding-bottom: @gap;
+  @media all and (max-width: @screen-sm-min){
+  }
+  @media all and (min-width: @screen-sm-max){
+    width: 750px;
+  }
+}
+.row{
+  .clearfix();
+  margin-left: -@gap/2;
+  margin-right: -@gap/2;
+}
+[class^=col]{
+  float: left;
+  box-sizing:border-box;
+  padding-top: @gap;
+  padding-left: @gap/2;
+  padding-right: @gap/2;
+  > div{
+    border: 1px solid @border-color;
+    background: @background-color;
+    height: 50px;
+  }
+}
+.generate-xs-columns();
+@media all and (min-width: 768px){
+  .generate-md-columns()
+}

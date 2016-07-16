@@ -1,0 +1,21 @@
+.container {
+  border: 1px solid #999;
+  background: #fff;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.row {
+  margin-left: -10px;
+  margin-right: -10px;
+}
+[class^=col] {
+  float: left;
+  border: 1px solid #eee;
+  background: #eee;
+  height: 50px;
+  box-sizing: border-box;
+}
+.col-md-4 {
+  float: left;
+  width: 33.33333333%;
+}

@@ -3,12 +3,17 @@ body,ul,li,p{
   margin: 0;
   padding: 0;
 }
-.clearfix::before,.clearfix::after{
-  content: '';
-  display: block;
+.clearfix{
+  &::before,&::after{
+    content: '';
+    display: block;
+  }
+  &::after{
+    clear: both;
+  }
 }
-.clearfix::after{
-  clear: both;
+.center-block{
+  margin: 0 auto;
 }
 .block{
   display: block;
