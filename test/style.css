@@ -1,21 +1,13 @@
-.container {
-  border: 1px solid #999;
-  background: #fff;
-  padding-left: 10px;
-  padding-right: 10px;
+.HolyGrail {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
 }
-.row {
-  margin-left: -10px;
-  margin-right: -10px;
+header,
+footer {
+  flex: 1;
 }
-[class^=col] {
-  float: left;
-  border: 1px solid #eee;
-  background: #eee;
-  height: 50px;
-  box-sizing: border-box;
-}
-.col-md-4 {
-  float: left;
-  width: 33.33333333%;
+.HolyGrail-body {
+  display: flex;
+  flex: 1;
 }
