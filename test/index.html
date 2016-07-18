@@ -1,32 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app">
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    .container{
-      height: 400px;
-      background-color: antiquewhite;
-      display: flex;
-      flex-direction: column;
-    }
-    .item{
-      width: 40px;
-      height: 40px;
-      background-color: red;
-      display: inline-block;
-    }
-  </style>
+  <script src="../bower_components/angular/angular.js"></script>
+  <script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
 </head>
-<div class="container">
-  <div class="row">
-    <div class="item"></div>
-    <div class="item"></div>
-  </div>
-  <div class="row">
-    <div class="item"></div>
-    <div class="item"></div>
-  </div>
-</div>
+<body ng-controller="MainCtrl">
+<div ui-view>Default Value</div>
+<a ui-sref="index">Index</a>
+<a ui-sref="contacts">Contacts</a>
+<a ui-sref="contacts({name: 'yangjian',age: 20,test:100})">Contacts with params</a>
+<script>
+  var app = angular.module('app',['ui.router']);
+  app.controller('MainCtrl',function($scope,$state,$timeout){
+  })
+  app.value('value','const value');
+  app.config(function($stateProvider,$urlRouterProvider){
+    $urlRouterProvider.otherwise('/index')
+    $stateProvider
+            .state('contacts',{
+              url:'/contacts?name&age',
+              controller:function($scope,$state){
+                console.log($state.current.data);
+              },
+              templateProvider:function($stateParams,$timeout){
+                return 'contacts: welcome' + 'name: ' + $stateParams.name + ",age: " + $stateParams.age;
+              },
+              data:{
+                customData1: 44,
+                customData2: 'red'
+              }
+            })
+            .state('index',{
+              url: '/index',
+              templateProvider:function($timeout){
+                return $timeout(function(){
+                  return 'index'
+                },1000)
+              }
+            })
+  })
+</script>
+</body>
 </html>
