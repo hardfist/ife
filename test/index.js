@@ -1,4 +1,5 @@
-/**
- * Created by yj on 16/7/17.
- */
-const a = 'hello';
+var pred = 'hello'
+pred = function(val){
+    return val == pred
+}
+console.log(pred('hello'))

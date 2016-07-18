@@ -1,0 +1,29 @@
+{
+  "name": "ife",
+  "version": "1.0.0",
+  "description": "ife任务 #使用es6语法,在最新的chrome上可以运行。",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hardfist/ife.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hardfist/ife/issues"
+  },
+  "homepage": "https://github.com/hardfist/ife#readme",
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-cli": "^6.10.1",
+    "babel-preset-es2015": "^6.9.0",
+    "less": "^2.7.1"
+  }
+}
