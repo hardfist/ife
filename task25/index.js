@@ -30,6 +30,16 @@ class Tree{
         }
         return this;
     }
+    query(keyword){
+        if(this.value == keyword){
+            return this;
+        }
+        for(let child of this.children){
+            var tmp = child.query(keyword)
+            if(tmp) return tmp;
+        }
+        return null;
+    }
 }
 var model = new Tree('Super',[
     new Tree('CellPhone1',[
@@ -45,13 +55,27 @@ var model = new Tree('Super',[
 ])
 app.controller('MainCtrl',function($scope){
     $scope.model = model;
+    $scope.search = function(){
+        if($scope.selected){
+            $scope.selected.selected =false;
+        }
+        var res = this.model.query($scope.keyword);
+        if(res){
+            res.selected = true;
+            $scope.selected = res;
+            while(res){
+                res.open = true;
+                res = res.parent;
+            }
+        }
+    };
 });
 app.controller('treeCtrl',function($scope){
     $scope.isFolder = function(){
         return $scope.model.children && $scope.model.children.length;
     };
     $scope.toggle = function(){
-        return $scope.open = !$scope.open;
+        return $scope.model.open = !$scope.model.open;
     };
     $scope.addItem = function(){
         let text = prompt('请输入节点内容');
@@ -67,7 +91,8 @@ app.controller('treeCtrl',function($scope){
     $scope.hideTip = function(){
         $scope.show = false;
     };
-    $scope.open = false;
+
+    $scope.model.open = false;
     $scope.show = false;
 });
 app.directive('treeDirective',function(){

@@ -1,8 +1,20 @@
+.container {
+  color: #1c90f6;
+}
 .container li {
   list-style-type: none;
 }
 .container .folder {
   font-weight: bold;
+}
+.container .add {
+  color: green;
+}
+.container .del {
+  color: red;
+}
+.container .selected {
+  color: red;
 }
 .container .arrow {
   display: inline-block;

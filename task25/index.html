@@ -7,9 +7,15 @@
     <script src="../bower_components/angular/angular.js"></script>
 </head>
 <body>
-<div class="container" ng-controller="MainCtrl">
-    <tree-directive model="model"></tree-directive>
-</div>
+<fieldset ng-controller="MainCtrl">
+    <legend>树形组件</legend>
+    <input type="text" placeholder="search" ng-model="keyword">
+    <input type="button" id="search" value="搜索" ng-click="search()">
+    <p id="result"></p>
+    <div class="container">
+        <tree-directive model="model"></tree-directive>
+    </div>
+</fieldset>
 <script src="index.js"></script>
 </body>
 </html>

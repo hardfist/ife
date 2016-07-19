@@ -1,13 +1,13 @@
 <li>
     <div ng-class="{folder:isFolder()}" ng-click="toggle()" ng-mouseenter="showTip()" ng-mouseleave="hideTip()">
-        <span class="arrow" ng-class="{open:open,closed:!open}"></span>
-        <span class="value">{{model.value}}</span>
+        <span class="arrow" ng-class="{open:model.open,closed:!model.open}"></span>
+        <span class="value" ng-class="{selected:model.selected}">{{model.value}}</span>
         <span ng-show="show">
-            <span ng-click="addItem()">+</span>
-            <span ng-click="deleteItem()">x</span>
+            <span ng-click="addItem()" class="add">+</span>
+            <span ng-click="deleteItem()" class="del">x</span>
         </span>
     </div>
-    <ul ng-show="open">
+    <ul ng-show="model.open">
         <li ng-repeat="node in model.children">
             <tree-directive model="node"></tree-directive>
         </li>
