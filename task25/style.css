@@ -1,3 +1,23 @@
-.folder {
+.container li {
+  list-style-type: none;
+}
+.container .folder {
   font-weight: bold;
+}
+.container .arrow {
+  display: inline-block;
+  margin-right: 6px;
+  width: 0;
+  height: 0;
+  cursor: pointer;
+}
+.container .arrow.open {
+  border-top: 10px solid #1c90f6;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+}
+.container .arrow.closed {
+  border-left: 10px solid #1c90f6;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
 }
