@@ -1,0 +1,74 @@
+.gamepad {
+  width: 500px;
+  height: 500px;
+  position: relative;
+  margin: 0 auto;
+  border: 1px solid #333;
+}
+.gamepad .center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.gamepad .topcenter {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, -50%);
+}
+.gamepad .orbit {
+  border: 1px solid  #333;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.gamepad .orbit[data-id='1'] {
+  width: 500px;
+  height: 500px;
+}
+.gamepad .orbit[data-id='1'] .spaceship {
+  transform-origin: 25px 260px;
+}
+.gamepad .orbit[data-id='2'] {
+  width: 400px;
+  height: 400px;
+}
+.gamepad .orbit[data-id='2'] .spaceship {
+  transform-origin: 25px 210px;
+}
+.gamepad .orbit[data-id='3'] {
+  width: 300px;
+  height: 300px;
+}
+.gamepad .orbit[data-id='3'] .spaceship {
+  transform-origin: 25px 160px;
+}
+.gamepad .orbit[data-id='4'] {
+  width: 200px;
+  height: 200px;
+}
+.gamepad .orbit[data-id='4'] .spaceship {
+  transform-origin: 25px 110px;
+}
+.gamepad .orbit .spaceship {
+  width: 50px;
+  height: 20px;
+  border: 1px solid blue;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, -50%);
+}
+.gamepad .earth {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: blue;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}

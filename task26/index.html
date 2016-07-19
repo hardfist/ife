@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="../bower_components/angular/angular.js"></script>
+</head>
+<body>
+<div class="game" ng-controller="MainCtrl">
+    <div class="gamepad">
+        <div class="orbit" ng-repeat="ship in ships" data-id="{{ship.id}}">
+            <div class="spaceship"  ng-style="ship.style" ng-show="ship.state !='destroyed'"></div>
+        </div>
+        <div class="earth"></div>
+    </div>
+    <fieldset class="gameCtrl">
+        <legend>Control Panel</legend>
+        <div class="control" ng-repeat="ship in ships" data-id="{{ship.id}}">
+            <span>飞船1</span>
+            <button class="launch" ng-click="launch(ship.id)">launch</button>
+            <button class="fly" ng-click="fly(ship.id)">fly</button>
+            <button class="stop" ng-click="stop(ship.id)">stop</button>
+            <button class="destroy" ng-click="destroy(ship.id)">destroy</button>
+        </div>
+    </fieldset>
+</div>
+<script src="index.js"></script>
+</body>
+</html>
