@@ -1,0 +1,11 @@
+<li>
+    <div ng-class="{folder:isFolder()}" ng-click="toggle()">
+        {{model.value}} [{{open ? '-' : '+'}}]
+    </div>
+    <ul ng-show="open">
+        <li ng-repeat="node in model.children">
+            <tree-directive model="node"></tree-directive>
+        </li>
+        <li ng-click="addItem()">+</li>
+    </ul>
+</li>
