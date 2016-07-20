@@ -2,11 +2,13 @@
  * Created by yj on 16/7/19.
  */
 class Ship{
-    constructor(id,radius){
+    constructor(id,radius,config){
+        console.log('config:',config);
         this.id = id;
         this.radius = radius;
+        this.config = config;
         this.deg = 0;
-        this.speed = 100;
+        this.power = 100;
         this.state = 'destroyed';
         this.shipWidth = 500;
         this.shipHeight = 200;
@@ -38,41 +40,60 @@ class Ship{
         this.initStyle();
     }
     fly(){
-        this.state = 'flying'
+        this.state = 'flying';
+        let self = this;
+        this.timeId = this.$interval(function(){
+            self.rotate();
+            self.power -= self.config.consume/100;
+            if(self.power <=0){
+                self.stop();
+                self.power = 0;
+                self.charge();
+            }
+        },10)
+    }
+    charge(){
+        let self = this;
+        this.timeId = this.$interval(function(){
+            self.power += self.config.charge/100;
+            if(self.power>=100){
+                self.power =100;
+                self.$interval.cancel(self.timeId);
+                self.fly();
+            }
+        })
     }
     stop(){
-        this.state = 'stoped'
+        this.state = 'stoped';
+        if(this.timeId){
+            this.$interval.cancel(this.timeId);
+        }
     }
     rotate(deg = 1){
-        this.deg += deg;
+        this.deg += this.config.speed/360;
         this.renderStyle();
     }
 }
-
 var app = angular.module('app',[]);
 app.controller('MainCtrl',function($scope,$timeout,$interval){
+    Ship.prototype.$interval = $interval;
+    $scope.config = {};
+    $scope.ships = [];
     let uuid = 1;
     let uuradius = 100;
-    init();
-    function clear(ship){
-        if(ship.timeId){
-            $interval.cancel(ship.timeId);
-        }
-    }
-
-    function init(){
-        $scope.ships = [];
-        for(let i=0;i<4;i++){
-            createShip();
-        }
-    }
-    function createShip() {
+    let mediator = new Meditator();
+    $scope.createShip =function() {
         let id = uuid++;
         let radius = uuradius;
+        let value = $scope.config.power.split(',');
+        let speed = parseFloat(value[0]);
+        let consume = parseFloat(value[1]);
+        let charge = $scope.config.charge;
         uuradius += 50;
-        $scope.ships.push(new Ship(id, uuradius));
-    }
-    $scope.createShip = createShip;
+        $scope.ships.push(new Ship(id, uuradius,{
+            speed,consume,charge
+        }));
+    };
     $scope.destroy = function(id){
         let ship = findById(id);
         if(ship && ship.state !='destroyed'){
@@ -90,16 +111,12 @@ app.controller('MainCtrl',function($scope,$timeout,$interval){
         let ship = findById(id);
         if(ship && ship.state !='flying'){
             ship.fly();
-            ship.timeId= $interval(function(){
-                ship.rotate(1)
-            },0)
         }
     };
     $scope.stop = function(id){
         let ship = findById(id);
         if(ship && ship.state == 'flying'){
             ship.stop();
-            clear(ship);
         }
     };
     function findById(id){
@@ -110,4 +127,11 @@ app.controller('MainCtrl',function($scope,$timeout,$interval){
         }
         return null;
     }
+    function init(){
+        $scope.ships = [];
+        for(let i=0;i<4;i++){
+            createShip();
+        }
+    }
+
 });

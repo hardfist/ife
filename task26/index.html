@@ -10,21 +10,44 @@
 <div class="game" ng-controller="MainCtrl">
     <div class="gamepad">
         <div class="orbit" ng-repeat="ship in ships" data-id="{{ship.id}}" ng-style="ship.orbitStyle">
-            <div class="spaceship"  ng-style="ship.style" ng-show="ship.state !='destroyed'"></div>
+            <div class="spaceship" ng-style="ship.style" ng-show="ship.state !='destroyed'">
+                <div class="percent" ng-style="{width:ship.power+'%'}"></div>
+            </div>
         </div>
         <div class="earth"></div>
     </div>
-    <fieldset class="gameCtrl">
-        <legend>Control Panel</legend>
-        <div class="control" ng-repeat="ship in ships" data-id="{{ship.id}}">
-            <span>飞船{{ship.id}}</span>
-            <button class="launch" ng-click="launch(ship.id)" ng-disabled="ship.state !='destroyed'" >launch</button>
-            <button class="fly" ng-click="fly(ship.id)" ng-disabled="ship.state != 'stoped' && ship.state !='init'">fly</button>
-            <button class="stop" ng-click="stop(ship.id)" ng-disabled="ship.state != 'flying'">stop</button>
-            <button class="destroy" ng-click="destroy(ship.id)" ng-disabled="ship.state == 'destroyed'">destroy</button>
-        </div>
-        <button class="create" ng-click="createShip()">创建新的飞船</button>
-    </fieldset>
+    <div class="Control">
+        <fieldset class="ConfigCtrl">
+            <legend>Config Panel</legend>
+            <div class="power" ng-init="config.power = '30,5'">
+                <span>动力系统选择:</span>
+                <label><input type="radio" ng-model="config.power" ng-value="'30,5'">前进号(速度30px/s,能耗5%/s)</label>
+                <label><input type="radio" ng-model="config.power" ng-value="'50,7'">奔腾号(速度50px/s,能耗7%/s)</label>
+                <label><input type="radio" ng-model="config.power" ng-value="'80,9'">超越号(速率80px/x,能耗9%/s)</label>
+            </div>
+            <div class="energy" ng-init="config.charge=2">
+                <span>能源系统选择:</span>
+                <label><input type="radio" ng-model="config.charge" ng-value="2" >劲量型 (补充能源速度2%/s)</label>
+                <label><input type="radio" ng-model="config.charge" ng-value="3">光能型 (补充能源速度3%/s)</label>
+                <label><input type="radio" ng-model="config.charge" ng-value="4">永久型 (补充能源速度4%/2)</label>
+            </div>
+            <button class="create" ng-click="createShip()">创建新的飞船</button>
+        </fieldset>
+        <fieldset class="gameCtrl">
+            <legend>Control Panel</legend>
+            <div class="control" ng-repeat="ship in ships" data-id="{{ship.id}}">
+                <span>飞船{{ship.id}}</span>
+                <button class="launch" ng-click="launch(ship.id)" ng-disabled="ship.state !='destroyed'">launch</button>
+                <button class="fly" ng-click="fly(ship.id)" ng-disabled="ship.state != 'stoped' && ship.state !='init'">
+                    fly
+                </button>
+                <button class="stop" ng-click="stop(ship.id)" ng-disabled="ship.state != 'flying'">stop</button>
+                <button class="destroy" ng-click="destroy(ship.id)" ng-disabled="ship.state == 'destroyed'">destroy
+                </button>
+            </div>
+
+        </fieldset>
+    </div>
 </div>
 <script src="index.js"></script>
 </body>
