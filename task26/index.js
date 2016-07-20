@@ -1,8 +1,24 @@
 /**
  * Created by yj on 16/7/19.
  */
+class Event{
+    constructor(){
+        this.listeners = {}
+    }
+    on(type,listener) {
+        (this.listeners[type] = this.listeners[type] || []).push(listener);
+    }
+    fire(type){
+        let handlers = this.listeners[type] || [];
+        for(let handler of handlers){
+            handler();
+        }
+    }
+}
+let eventBus = new Event;
+
 class Ship{
-    constructor(id,radius,config){
+    constructor({id,radius,config,mediator}){
         console.log('config:',config);
         this.id = id;
         this.radius = radius;
@@ -12,8 +28,30 @@ class Ship{
         this.state = 'destroyed';
         this.shipWidth = 500;
         this.shipHeight = 200;
+        this.mediator = mediator;
         this.timeId = null;
         this.initStyle();
+        this.mediator.register(this);
+    }
+    execCmd(cmd){
+        if(cmd.id == this.id){
+            switch(cmd.command){
+                case 'launch':
+                    this.launch();
+                    break;
+                case 'fly':
+                    this.fly();
+                    break;
+                case 'stop':
+                    this.stop();
+                    break;
+                case 'destroy':
+                    this.destroy();
+                    break;
+                default:
+                    throw new Error('不支持的命令');
+            }
+        }
     }
     initStyle(){
         this.orbitStyle = {
@@ -32,7 +70,7 @@ class Ship{
 
     }
     destroy(){
-        this.state = 'destroyed'
+        this.state = 'destroyed';
     }
     launch(){
         this.state = 'init';
@@ -74,6 +112,54 @@ class Ship{
         this.renderStyle();
     }
 }
+class Writer{
+    constructor(){
+        this.container = document.querySelector('#log-out')
+    }
+    append(msg){
+        let p = document.createElement('p')
+        p.textContent = msg;
+        this.container.appendChild(p);
+        return this;
+    }
+}
+class Logger{
+    constructor(writer){
+        this.writer = writer;
+    }
+    log(msg){
+        let time = new Date();
+        console.log(msg);
+        this.writer.append(`${time.toUTCString()}: ${JSON.stringify(msg)}`);
+    }
+}
+class Mediator{
+    constructor(logger){
+        this.ships = [];
+        this.logger = new Logger(new Writer());
+    }
+    register(ship){
+        this.ships.push(ship);
+    }
+    deregister(ship){
+        let index = this.ships.indexOf(ship);
+        if(ship!=-1){
+            this.ships.splice(index,1);
+        }
+    }
+    broadCast(cmd){
+        //模拟1秒延时
+        this.logger.log(cmd);
+        let self = this;
+        setTimeout(function() {
+            for (let ship of self.ships) {
+                ship.execCmd(cmd);
+                eventBus.fire('refresh')
+            }
+        },1000);
+    }
+
+}
 var app = angular.module('app',[]);
 app.controller('MainCtrl',function($scope,$timeout,$interval){
     Ship.prototype.$interval = $interval;
@@ -81,7 +167,11 @@ app.controller('MainCtrl',function($scope,$timeout,$interval){
     $scope.ships = [];
     let uuid = 1;
     let uuradius = 100;
-    let mediator = new Meditator();
+    let mediator = new Mediator();
+    function refresh(){
+        $scope.$digest();
+    }
+    eventBus.on('refresh',refresh)
     $scope.createShip =function() {
         let id = uuid++;
         let radius = uuradius;
@@ -90,48 +180,39 @@ app.controller('MainCtrl',function($scope,$timeout,$interval){
         let consume = parseFloat(value[1]);
         let charge = $scope.config.charge;
         uuradius += 50;
-        $scope.ships.push(new Ship(id, uuradius,{
-            speed,consume,charge
-        }));
+        let ship = new Ship(
+            {
+                id:id,
+                radius:radius,
+                config: {
+                    speed, consume, charge
+                },
+                mediator:mediator
+            });
+        $scope.ships.push(ship);
     };
     $scope.destroy = function(id){
-        let ship = findById(id);
-        if(ship && ship.state !='destroyed'){
-            ship.destroy();
-            clear(ship);
-        }
+        mediator.broadCast({
+            id:id,
+            command: 'destroy'
+        })
     };
     $scope.launch =function(id){
-        let ship = findById(id);
-        if(ship){
-            ship.launch()
-        }
+        mediator.broadCast({
+            id: id,
+            command: 'launch'
+        })
     };
     $scope.fly = function(id){
-        let ship = findById(id);
-        if(ship && ship.state !='flying'){
-            ship.fly();
-        }
+        mediator.broadCast({
+            id: id,
+            command: 'fly'
+        })
     };
     $scope.stop = function(id){
-        let ship = findById(id);
-        if(ship && ship.state == 'flying'){
-            ship.stop();
-        }
+        mediator.broadCast({
+            id: id,
+            command: 'stop'
+        })
     };
-    function findById(id){
-        for(let ship of $scope.ships){
-            if(ship.id == id){
-                return ship;
-            }
-        }
-        return null;
-    }
-    function init(){
-        $scope.ships = [];
-        for(let i=0;i<4;i++){
-            createShip();
-        }
-    }
-
 });
