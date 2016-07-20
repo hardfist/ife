@@ -78,17 +78,19 @@ class Ship{
         this.initStyle();
     }
     fly(){
-        this.state = 'flying';
-        let self = this;
-        this.timeId = this.$interval(function(){
-            self.rotate();
-            self.power -= self.config.consume/100;
-            if(self.power <=0){
-                self.stop();
-                self.power = 0;
-                self.charge();
-            }
-        },10)
+        if(this.state != 'destroyed' && this.state!= 'flying') {
+            this.state = 'flying';
+            let self = this;
+            this.timeId = this.$interval(function () {
+                self.rotate();
+                self.power -= self.config.consume / 100;
+                if (self.power <= 0) {
+                    self.stop();
+                    self.power = 0;
+                    self.charge();
+                }
+            }, 10)
+        }
     }
     charge(){
         let self = this;
@@ -102,9 +104,11 @@ class Ship{
         })
     }
     stop(){
-        this.state = 'stoped';
-        if(this.timeId){
-            this.$interval.cancel(this.timeId);
+        if(this.state == 'flying') {
+            this.state = 'stoped';
+            if (this.timeId) {
+                this.$interval.cancel(this.timeId);
+            }
         }
     }
     rotate(deg = 1){
