@@ -9,7 +9,7 @@
 <body>
 <div class="game" ng-controller="MainCtrl">
     <div class="gamepad">
-        <div class="orbit" ng-repeat="ship in ships" data-id="{{ship.id}}">
+        <div class="orbit" ng-repeat="ship in ships" data-id="{{ship.id}}" ng-style="ship.orbitStyle">
             <div class="spaceship"  ng-style="ship.style" ng-show="ship.state !='destroyed'"></div>
         </div>
         <div class="earth"></div>
@@ -17,12 +17,13 @@
     <fieldset class="gameCtrl">
         <legend>Control Panel</legend>
         <div class="control" ng-repeat="ship in ships" data-id="{{ship.id}}">
-            <span>飞船1</span>
-            <button class="launch" ng-click="launch(ship.id)">launch</button>
-            <button class="fly" ng-click="fly(ship.id)">fly</button>
-            <button class="stop" ng-click="stop(ship.id)">stop</button>
-            <button class="destroy" ng-click="destroy(ship.id)">destroy</button>
+            <span>飞船{{ship.id}}</span>
+            <button class="launch" ng-click="launch(ship.id)" ng-disabled="ship.state !='destroyed'" >launch</button>
+            <button class="fly" ng-click="fly(ship.id)" ng-disabled="ship.state != 'stoped' && ship.state !='init'">fly</button>
+            <button class="stop" ng-click="stop(ship.id)" ng-disabled="ship.state != 'flying'">stop</button>
+            <button class="destroy" ng-click="destroy(ship.id)" ng-disabled="ship.state == 'destroyed'">destroy</button>
         </div>
+        <button class="create" ng-click="createShip()">创建新的飞船</button>
     </fieldset>
 </div>
 <script src="index.js"></script>
