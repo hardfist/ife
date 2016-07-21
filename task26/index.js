@@ -1,6 +1,33 @@
 /**
  * Created by yj on 16/7/19.
  */
+let cmdMap = {
+    '0001': 'launch',
+    '0010': 'fly',
+    '0011': 'stop',
+    '0100': 'destroy'
+};
+let mapCmd = {
+    'launch': '0001',
+    'fly': '0010',
+    'stop': '0011',
+    'destroy': '0100'
+};
+var Adapter = {
+    decode:function(msg){
+        let id = msg.slice(0,4);
+        let cmd = msg.slice(4);
+        return {
+            id: str2int(id),
+            command: cmdMap[cmd]
+        }
+    },
+    encode: function(msg){
+        let id = leftPad(int2str(msg.id),4);
+        let cmd = mapCmd[msg.command]
+        return id+cmd;
+    }
+};
 class Event{
     constructor(){
         this.listeners = {}
@@ -16,7 +43,32 @@ class Event{
     }
 }
 let eventBus = new Event;
-
+function identify(msg){
+    return msg;
+}
+function leftPad(str,n,ch){
+    let len = str.length;
+    if(n<=len) return str;
+    return new Array(n-len+1).join(ch||' ')+str;
+}
+function divide(m,n){
+    let q = Math.floor(m/n)
+    let r = m - n*q;
+    return [q,r];
+}
+function str2int(str){
+    return parseInt(str,2);
+}
+function int2str(n){
+    let res = '';
+    let q,r;
+    do{
+        [q,r] = divide(n,2);
+        res += r;
+        n=q;
+    }while(n);
+    return res.split('').reverse().join('');
+}
 class Ship{
     constructor({id,radius,config,mediator}){
         console.log('config:',config);
@@ -34,6 +86,7 @@ class Ship{
         this.mediator.register(this);
     }
     execCmd(cmd){
+        cmd = Adapter.decode(cmd);
         if(cmd.id == this.id){
             switch(cmd.command){
                 case 'launch':
@@ -157,6 +210,7 @@ class Mediator{
         let self = this;
         setTimeout(function() {
             for (let ship of self.ships) {
+                cmd = Adapter.encode(cmd);
                 ship.execCmd(cmd);
                 eventBus.fire('refresh')
             }
