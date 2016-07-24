@@ -5,31 +5,56 @@
     <title>Title</title>
     <link rel="stylesheet" href="style.css">
     <script src="../bower_components/angular/angular.js"></script>
+    <script src="../bower_components/angular-translate/angular-translate.js"></script>
 </head>
 <body>
-<div class="game" ng-controller="MainCtrl">
-    <div class="gamepad">
-        <div class="orbit" ng-repeat="ship in ships" data-id="{{ship.id}}" ng-style="ship.orbitStyle">
-            <div class="spaceship" ng-style="ship.style" ng-show="ship.state !='destroyed'">
-                <div class="percent" ng-style="{width:ship.power+'%'}"></div>
+<div class="game container" ng-controller="MainCtrl">
+    <div class="clearfix">
+        <div class="gamepad">
+            <div class="orbit" ng-repeat="ship in ships" data-id="{{ship.id}}" ng-style="ship.orbitStyle">
+                <div class="spaceship" ng-style="ship.style" ng-show="ship.state !='destroyed'">
+                    <div class="percent" ng-style="{width:ship.power+'%'}"></div>
+                </div>
             </div>
+            <div class="earth"></div>
         </div>
-        <div class="earth"></div>
+        <div class="screen">
+            <table>
+                <thead>
+                <tr>
+                    <th>飞船</th>
+                    <th>动力系统</th>
+                    <th>能源系统</th>
+                    <th>当前飞行状态</th>
+                    <th>剩余能耗</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="info in infos">
+                    <td>{{info.id}}号</td>
+                    <td>{{info.powerName}}</td>
+                    <td>{{info.energyName}}</td>
+                    <td>{{info.state | translate}}</td>
+                    <td>{{info.power|number:0}}%</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     <div class="Control">
         <fieldset class="ConfigCtrl">
             <legend>Config Panel</legend>
-            <div class="power" ng-init="config.power = '30,5'">
+            <div class="power" ng-init="config.power = '30,5,前进号'">
                 <span>动力系统选择:</span>
-                <label><input type="radio" ng-model="config.power" ng-value="'30,5'">前进号(速度30px/s,能耗5%/s)</label>
-                <label><input type="radio" ng-model="config.power" ng-value="'50,7'">奔腾号(速度50px/s,能耗7%/s)</label>
-                <label><input type="radio" ng-model="config.power" ng-value="'80,9'">超越号(速率80px/x,能耗9%/s)</label>
+                <label><input type="radio" ng-model="config.power" ng-value="'30,5,前进号'">前进号(速度30px/s,能耗5%/s)</label>
+                <label><input type="radio" ng-model="config.power" ng-value="'50,7,奔腾号'">奔腾号(速度50px/s,能耗7%/s)</label>
+                <label><input type="radio" ng-model="config.power" ng-value="'80,9,超越号'">超越号(速率80px/x,能耗9%/s)</label>
             </div>
-            <div class="energy" ng-init="config.charge=2">
+            <div class="energy" ng-init="config.charge='2,劲量型'">
                 <span>能源系统选择:</span>
-                <label><input type="radio" ng-model="config.charge" ng-value="2" >劲量型 (补充能源速度2%/s)</label>
-                <label><input type="radio" ng-model="config.charge" ng-value="3">光能型 (补充能源速度3%/s)</label>
-                <label><input type="radio" ng-model="config.charge" ng-value="4">永久型 (补充能源速度4%/2)</label>
+                <label><input type="radio" ng-model="config.charge" ng-value="'2,劲量型'">劲量型 (补充能源速度2%/s)</label>
+                <label><input type="radio" ng-model="config.charge" ng-value="'3,光能型'">光能型 (补充能源速度3%/s)</label>
+                <label><input type="radio" ng-model="config.charge" ng-value="'4,永久型'">永久型 (补充能源速度4%/2)</label>
             </div>
             <button class="create" ng-click="createShip()">创建新的飞船</button>
         </fieldset>

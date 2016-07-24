@@ -26,6 +26,10 @@ p {
 .inline {
   display: inline;
 }
+.container {
+  width: 1200px;
+  margin: 0 auto;
+}
 header {
   height: 55px;
   line-height: 55px;

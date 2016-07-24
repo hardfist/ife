@@ -1,74 +1,9 @@
 /**
  * Created by yj on 16/7/19.
  */
-let cmdMap = {
-    '0001': 'launch',
-    '0010': 'fly',
-    '0011': 'stop',
-    '0100': 'destroy'
-};
-let mapCmd = {
-    'launch': '0001',
-    'fly': '0010',
-    'stop': '0011',
-    'destroy': '0100'
-};
-var Adapter = {
-    decode:function(msg){
-        let id = msg.slice(0,4);
-        let cmd = msg.slice(4);
-        return {
-            id: str2int(id),
-            command: cmdMap[cmd]
-        }
-    },
-    encode: function(msg){
-        let id = leftPad(int2str(msg.id),4,'0');
-        let cmd = mapCmd[msg.command]
-        return id+cmd;
-    }
-};
-class Event{
-    constructor(){
-        this.listeners = {}
-    }
-    on(type,listener) {
-        (this.listeners[type] = this.listeners[type] || []).push(listener);
-    }
-    fire(type){
-        let handlers = this.listeners[type] || [];
-        for(let handler of handlers){
-            handler();
-        }
-    }
-}
-let eventBus = new Event;
-function identify(msg){
-    return msg;
-}
-function leftPad(str,n,ch){
-    let len = str.length;
-    if(n<=len) return str;
-    return new Array(n-len+1).join(ch||' ')+str;
-}
-function divide(m,n){
-    let q = Math.floor(m/n)
-    let r = m - n*q;
-    return [q,r];
-}
-function str2int(str){
-    return parseInt(str,2);
-}
-function int2str(n){
-    let res = '';
-    let q,r;
-    do{
-        [q,r] = divide(n,2);
-        res += r;
-        n=q;
-    }while(n);
-    return res.split('').reverse().join('');
-}
+/**
+ * 飞船类
+ */
 class Ship{
     constructor({id,radius,config,mediator}){
         console.log('config:',config);
@@ -82,8 +17,30 @@ class Ship{
         this.shipHeight = 200;
         this.mediator = mediator;
         this.timeId = null;
+        this.broadCastId = null;
         this.initStyle();
         this.mediator.register(this);
+        dataCenter.addInfo({
+            id: this.id,
+            state: this.state,
+            power: this.power,
+            powerName: this.config.powerName,
+            energyName: this.config.energyName
+        });
+        this._broadCast();
+    }
+    _broadCast(info){
+        let self = this;
+        this.broadCastId = setInterval(function(){
+            dataCenter.updateInfo({
+                id: self.id,
+                state: self.state,
+                power: self.power,
+                powerName: self.config.powerName,
+                energyName: self.config.energyName
+            });
+            eventBus.fire('updateInfo');
+        },1000)
     }
     execCmd(cmd){
         cmd = Adapter.decode(cmd);
@@ -134,7 +91,7 @@ class Ship{
         if(this.state != 'destroyed' && this.state!= 'flying') {
             this.state = 'flying';
             let self = this;
-            this.timeId = this.$interval(function () {
+            this.timeId = setInterval(function () {
                 self.rotate();
                 self.power -= self.config.consume / 100;
                 if (self.power <= 0) {
@@ -142,6 +99,7 @@ class Ship{
                     self.power = 0;
                     self.charge();
                 }
+                eventBus.fire('flying')
             }, 10)
         }
     }
@@ -151,7 +109,7 @@ class Ship{
             self.power += self.config.charge/100;
             if(self.power>=100){
                 self.power =100;
-                self.$interval.cancel(self.timeId);
+                clearInterval(self.timeId);
                 self.fly();
             }
         })
@@ -160,7 +118,7 @@ class Ship{
         if(this.state == 'flying') {
             this.state = 'stoped';
             if (this.timeId) {
-                this.$interval.cancel(this.timeId);
+                clearInterval(self.timeId);
             }
         }
     }
@@ -169,17 +127,23 @@ class Ship{
         this.renderStyle();
     }
 }
+/**
+ * 输出文件类
+ */
 class Writer{
     constructor(){
         this.container = document.querySelector('#log-out')
     }
     append(msg){
-        let p = document.createElement('p')
+        let p = document.createElement('p');
         p.textContent = msg;
         this.container.appendChild(p);
         return this;
     }
 }
+/**
+ * 日志类
+ */
 class Logger{
     constructor(writer){
         this.writer = writer;
@@ -190,6 +154,9 @@ class Logger{
         this.writer.append(`${time.toUTCString()}: ${JSON.stringify(msg)}`);
     }
 }
+/**
+ * 中继器类
+ */
 class Mediator{
     constructor(logger){
         this.ships = [];
@@ -218,32 +185,122 @@ class Mediator{
     }
 
 }
-var app = angular.module('app',[]);
+/**
+ * 事件类
+ */
+class Event{
+    constructor(){
+        this.listeners = {}
+    }
+    on(type,listener) {
+        (this.listeners[type] = this.listeners[type] || []).push(listener);
+    }
+    fire(type){
+        let handlers = this.listeners[type] || [];
+        for(let handler of handlers){
+            handler();
+        }
+    }
+}
+class DataCenter{
+    constructor(){
+        this.infos = [];
+    }
+    getInfo(info){
+        return this.infos;
+    }
+    addInfo(info){
+        this.infos.push(info);
+    }
+    updateInfo(info){
+        for(let item of this.infos){
+            if(item.id == info.id){
+                Object.assign(item,info);
+            }
+        }
+    }
+}
+var cmdMap = {
+    '0001': 'launch',
+    '0010': 'fly',
+    '0011': 'stop',
+    '0100': 'destroy'
+};
+var mapCmd = {
+    'launch': '0001',
+    'fly': '0010',
+    'stop': '0011',
+    'destroy': '0100'
+};
+var dataCenter = new DataCenter();
+// 适配器负责编码解码
+var Adapter = {
+    decode:function(msg){
+        let id = msg.slice(0,4);
+        let cmd = msg.slice(4);
+        return {
+            id: str2int(id),
+            command: cmdMap[cmd]
+        }
+    },
+    encode: function(msg){
+        let id = leftPad(int2str(msg.id),4,'0');
+        let cmd = mapCmd[msg.command]
+        return id+cmd;
+    }
+};
+var eventBus = new Event;
+var app = angular.module('app',['pascalprecht.translate']);
+app.config(['$translateProvider',function($translateProvider){
+    $translateProvider.translations('zh',{
+        'flying': '飞行中',
+        'init': '初始化',
+        'stoped' : '暂停中',
+        'destroyed': '销毁了'
+    });
+    $translateProvider.preferredLanguage('zh');
+}]);
+app.filter('digitsLimit',function(){
+    return function(value,digits){
+        return value.toFixed(digits);
+    }
+})
 app.controller('MainCtrl',function($scope,$timeout,$interval){
     Ship.prototype.$interval = $interval;
     $scope.config = {};
     $scope.ships = [];
+    $scope.infos = [];
     let uuid = 1;
     let uuradius = 100;
     let mediator = new Mediator();
     function refresh(){
         $scope.$digest();
     }
-    eventBus.on('refresh',refresh)
+    eventBus.on('refresh',refresh);
+    eventBus.on('flying',function(){
+        $scope.$digest();
+    });
+    eventBus.on('updateInfo',function(){
+       $scope.infos = dataCenter.getInfo();
+        $scope.$digest();
+    });
     $scope.createShip =function() {
         let id = uuid++;
         let radius = uuradius;
         let value = $scope.config.power.split(',');
         let speed = parseFloat(value[0]);
         let consume = parseFloat(value[1]);
-        let charge = $scope.config.charge;
+        let powerName = value[2];
+        let energy= $scope.config.charge.split(',');
+        let charge = parseFloat(energy[0]);
+        let energyName = energy[1];
         uuradius += 50;
         let ship = new Ship(
             {
                 id:id,
                 radius:radius,
                 config: {
-                    speed, consume, charge
+                    speed, consume, charge,powerName,energyName
                 },
                 mediator:mediator
             });
@@ -274,3 +331,32 @@ app.controller('MainCtrl',function($scope,$timeout,$interval){
         })
     };
 });
+
+
+/* 常用功能函数 */
+function identify(msg){
+    return msg;
+}
+function leftPad(str,n,ch){
+    let len = str.length;
+    if(n<=len) return str;
+    return new Array(n-len+1).join(ch||' ')+str;
+}
+function divide(m,n){
+    let q = Math.floor(m/n)
+    let r = m - n*q;
+    return [q,r];
+}
+function str2int(str){
+    return parseInt(str,2);
+}
+function int2str(n){
+    let res = '';
+    let q,r;
+    do{
+        [q,r] = divide(n,2);
+        res += r;
+        n=q;
+    }while(n);
+    return res.split('').reverse().join('');
+}

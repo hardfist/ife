@@ -26,6 +26,10 @@ p {
 .inline {
   display: inline;
 }
+.container {
+  width: 1200px;
+  margin: 0 auto;
+}
 body {
   font-family: "微软雅黑";
   font-size: 12px;

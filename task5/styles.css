@@ -26,6 +26,10 @@ p {
 .inline {
   display: inline;
 }
+.container {
+  width: 1200px;
+  margin: 0 auto;
+}
 .padding {
   padding-left: 15px;
   padding-right: 15px;
