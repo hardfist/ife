@@ -32,14 +32,11 @@ class Ship{
     _broadCast(info){
         let self = this;
         this.broadCastId = setInterval(function(){
-            dataCenter.updateInfo({
+            eventBus.fire('updateInfo',Adapter.encodeInfo({
                 id: self.id,
                 state: self.state,
-                power: self.power,
-                powerName: self.config.powerName,
-                energyName: self.config.energyName
-            });
-            eventBus.fire('updateInfo');
+                power: self.power
+            }));
         },1000)
     }
     execCmd(cmd){
@@ -195,10 +192,10 @@ class Event{
     on(type,listener) {
         (this.listeners[type] = this.listeners[type] || []).push(listener);
     }
-    fire(type){
+    fire(type,data){
         let handlers = this.listeners[type] || [];
         for(let handler of handlers){
-            handler();
+            handler(data);
         }
     }
 }
@@ -220,35 +217,71 @@ class DataCenter{
         }
     }
 }
-var cmdMap = {
-    '0001': 'launch',
-    '0010': 'fly',
-    '0011': 'stop',
-    '0100': 'destroy'
-};
-var mapCmd = {
-    'launch': '0001',
-    'fly': '0010',
-    'stop': '0011',
-    'destroy': '0100'
-};
+
 var dataCenter = new DataCenter();
 // 适配器负责编码解码
-var Adapter = {
-    decode:function(msg){
-        let id = msg.slice(0,4);
-        let cmd = msg.slice(4);
-        return {
-            id: str2int(id),
-            command: cmdMap[cmd]
+var Adapter =(function(){
+    var cmdMap = {
+        '0001': 'launch',
+        '0010': 'fly',
+        '0011': 'stop',
+        '0100': 'destroy'
+    };
+    var mapCmd = {
+        'launch': '0001',
+        'fly': '0010',
+        'stop': '0011',
+        'destroy': '0100'
+    };
+    var mapState = {
+        'init': '0001',
+        'flying': '0010',
+        'stoped': '0011',
+        'destroyed': '0100',
+    };
+    var stateMap = {
+        '0001' : 'init',
+        '0010' : 'flying',
+        '0011': 'stoped',
+        '0100' : 'destroyed'
+    };
+    return {
+        decode:function(msg){
+            let id = msg.slice(0,4);
+            let cmd = msg.slice(4);
+            return {
+                id: str2int(id),
+                command: cmdMap[cmd]
+            }
+        },
+        encode: function(msg){
+            let id = leftPad(int2str(msg.id),4,'0');
+            let cmd = mapCmd[msg.command];
+            return id+cmd;
+        },
+        encodeInfo:identify,
+        decodeInfo: identify
+        /*
+        encodeInfo:function(info){
+            let id = leftPad(int2str(info.id),4,'0');
+            let state = mapState[info.state];
+            let power = leftPad(int2str(info.power),8,'0');
+            return id+state+power;
+
+        },
+        decodeInfo:function(msg){
+            let id = msg.slice(0,4);
+            let state = msg.slice(4,8);
+            let power = msg.slice(8,12);
+            return{
+                id: str2int(id),
+                state: stateMap[state],
+                power: str2int(power)
+            }
         }
-    },
-    encode: function(msg){
-        let id = leftPad(int2str(msg.id),4,'0');
-        let cmd = mapCmd[msg.command]
-        return id+cmd;
+        */
     }
-};
+}());
 var eventBus = new Event;
 var app = angular.module('app',['pascalprecht.translate']);
 app.config(['$translateProvider',function($translateProvider){
@@ -280,8 +313,10 @@ app.controller('MainCtrl',function($scope,$timeout,$interval){
     eventBus.on('flying',function(){
         $scope.$digest();
     });
-    eventBus.on('updateInfo',function(){
-       $scope.infos = dataCenter.getInfo();
+    eventBus.on('updateInfo',function(info){
+        info  = Adapter.decodeInfo(info);
+        dataCenter.updateInfo(info);
+        $scope.infos = dataCenter.getInfo();
         $scope.$digest();
     });
     $scope.createShip =function() {
@@ -351,6 +386,7 @@ function str2int(str){
     return parseInt(str,2);
 }
 function int2str(n){
+    n = n.toFixed(0);
     let res = '';
     let q,r;
     do{
