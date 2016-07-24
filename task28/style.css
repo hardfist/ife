@@ -1,0 +1,47 @@
+.gamepad {
+  width: 300px;
+  height: 300px;
+  position: relative;
+  margin: 0 auto;
+  border: 1px solid #333;
+}
+.gamepad .center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.gamepad .topcenter {
+  position: absolute;
+  left: 50%;
+  top: 0;
+}
+.gamepad .orbit {
+  border: 1px solid  #333;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.gamepad .orbit .spaceship {
+  border: 1px solid blue;
+  position: absolute;
+  left: 50%;
+  top: 0;
+}
+.gamepad .orbit .spaceship .percent {
+  position: absolute;
+  height: 100%;
+  background: orange;
+}
+.gamepad .earth {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: blue;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}

@@ -209,8 +209,8 @@ class Mediator{
         this.logger.log(cmd);
         let self = this;
         setTimeout(function() {
+            cmd = Adapter.encode(cmd);
             for (let ship of self.ships) {
-                cmd = Adapter.encode(cmd);
                 ship.execCmd(cmd);
                 eventBus.fire('refresh')
             }

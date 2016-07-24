@@ -1,0 +1,47 @@
+.gamepad{
+  width: 300px;
+  height: 300px;
+  position: relative;
+  margin: 0 auto;
+  border: 1px solid #333;
+  .center{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+  }
+  .transform-origin(@height){
+    transform-origin: 25px (10px+@height/2px)
+  }
+  .topcenter{
+    position: absolute;
+    left: 50%;
+    top: 0;
+  }
+  .orbit{
+    border: 1px solid  #333;
+    border-radius: 50%;
+    .center;
+    .spaceship{
+      border: 1px solid blue;
+      .topcenter;
+      .percent{
+        position: absolute;
+        height: 100%;
+        background: orange;
+      }
+    }
+  }
+  .earth{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: blue;
+    .center;
+  }
+}
+@keyframes circle {
+  0%{
+
+  }
+}
