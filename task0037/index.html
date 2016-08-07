@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #container {
+            border: 1px solid black;
+            height: 100px;
+            line-height: 100px;
+        }
+
+        .cell {
+            background: red;
+            width: 20px;
+            margin-left: 2px;
+            display: inline-block;
+            vertical-align: bottom;
+            transition-duration: .25s;
+        }
+        #commands{
+            height: 500px;
+            overflow: hidden;
+        }
+        #commands-line-wrapper,
+        #commands-editor{
+            float: left;
+            font-family: Menlo,Consolas,monospace;
+            line-height: 20px;
+            height: 100%;
+            color: #ecf0f1
+        }
+        #commands-line-wrapper {
+            border-radius: 4px 0 0 4px;
+            background-color: #2c3e50;
+            width: 40px;
+            font-size: 12px;
+            text-align: right;
+            padding-top: 5px ;
+            box-sizing: border-box;
+            cursor: default;
+        }
+        #command-lines{
+            position: relative;
+        }
+        #
+        #commands-editor{
+        }
+    </style>
+</head>
+<body>
+<div id="container">
+</div>
+<div id="control-panel">
+    <select id="duration">
+        <option value="1000">慢速</option>
+        <option value="100">常速</option>
+        <option value="10" selected>快速</option>
+    </select>
+    <select id="sort_type">
+        <option value="bubble_sort">冒泡排序</option>
+        <option value="select_sort">选择排序</option>
+        <option value="quick_sort">快速排序</option>
+    </select>
+    <button id="sort">排序</button>
+    <button id="reset">重置</button>
+    <button id="random">随机生成</button>
+    <button id="next">下一步</button>
+</div>
+<div id="commands">
+    <div id="commands-line">
+
+    </div>
+    <div id="commands-editor" contenteditable="true" draggable="true"  >
+
+    </div>
+</div>
+<script src="../../bower_components/jquery/dist/jquery.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

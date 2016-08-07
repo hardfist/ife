@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #container > .box {
+            background: red;
+            width: 100px;
+            height: 100px;
+            margin: 1px;
+            display: inline-block;
+            text-align: center;
+            line-height: 100px;
+            vertical-align: middle;
+            background: antiquewhite;
+
+        }
+
+        #input {
+            vertical-align: bottom;
+        }
+
+        #container .box.highlight {
+            background: orange;
+        }
+    </style>
+</head>
+<body>
+<textarea id="input"></textarea>
+<button id="push_left">左输入</button>
+<button id="push_right">右输入</button>
+<button id="pop_left">左输出</button>
+<button id="pop_right">右输出</button>
+<button id="random_insert">随机插入</button>
+<button id="clear">清除</button>
+<input id="search_input">
+<button id="search_btn">查询</button>
+<div id="container"></div>
+<!--<script src="//cdn.bootcss.com/jquery/2.2.1/jquery.js
+"></script>-->
+<script src="../../bower_components/jquery/dist/jquery.js"></script>
+<script>
+    var rSplit = /\s+|[,\uFF0C\u3001]/ //分割符正则空格,全角半角逗号,顿号,回车,tab
+    var queue = []; // 元素属性
+    var animation_queue = []; // dom操作函数队列
+    function render() {
+        $("#container").empty();
+        for (var i = 0; i < queue.length; i++) {
+            $("<div></div>").addClass("box").text(queue[i]).appendTo($("#container"))
+        }
+    }
+    // 初始化
+    function init() {
+        $("button").on("click", function () {
+            var arr = $("#input").val().split(rSplit);
+            switch (this.id) {
+                case "push_left":
+                    queue = arr.concat(queue);
+                    render();
+                    break;
+                case "push_right":
+                    queue = queue.concat(arr);
+                    render();
+                    break;
+                case "pop_left":
+                    queue.shift();
+                    render();
+                    break;
+                case "pop_right":
+                    queue.splice(-1);
+                    render();
+                    break;
+                case "clear":
+                    queue = [];
+                    render();
+                    break;
+                case "random_insert":
+                    random_insert()
+                    render();
+                    break;
+                case "bubble_sort":
+                    bubble_sort(queue, identical, swapDiv);
+                    run_animation()
+                    break;
+                case "search_btn":
+                    search()
+                    break;
+                default:
+                    throw new Error("Unknown button:", this.id)
+
+            }
+        })
+    }
+    //随机插入一些元素,以用于演示排序动画
+    function random_insert() {
+        queue = [];
+        for (var i = 0; i < 10; i++) {
+            queue[i] = Math.floor(Math.random() * 100);
+        }
+    }
+    //交换两个div
+    function swapDiv(a, i, j) {
+        var tmp = a[i]
+        a[i] = a[j]
+        a[j] = tmp
+        animation_queue.push(function () {
+            var $container = $("#container > .box")
+            var tmp = $($container[i]).height()
+            $($container[i]).height($($container[j]).height())
+            $($container[j]).height(tmp)
+        })
+    }
+    /**
+     * 冒泡排序
+     * @param a: 数组
+     * @param valueOf 数组元素的值函数,默认为identical
+     * @param swap_fn 数组内的交换函数
+     */
+    function bubble_sort(a, valueOf, swap_fn) {
+        if (typeof  valueOf == 'undefined') {
+            valueOf = identical
+        }
+        if (typeof  swap_fn == 'undefined') {
+            swap_fn = swap
+        }
+        for (var i = 0; i < a.length; i++) {
+            for (var j = i; j > 0 && valueOf(a[j]) < valueOf(a[j - 1]); j--) {
+                swap_fn(a, j - 1, j);
+            }
+        }
+    }
+    // 默认值函数
+    function identical(x) {
+        return x;
+    }
+    // 默认交换函数
+    function swap(a, i, j) {
+        var tmp = a[i];
+        a[i] = a[j];
+        a[j] = tmp;
+
+    }
+    // 测试排序
+    function bubble_sort_demo() {
+        var arr = [];
+        for (var i = 0; i < 20; i++) {
+            arr[i] = Math.floor(Math.random() * 100)
+        }
+        console.log(arr);
+        bubble_sort(arr);
+        console.log(arr)
+    }
+    // 运行dom操作
+    function run_animation() {
+        var interval = 100;
+        var timer = setTimeout(function () {
+            if (animation_queue.length > 0) {
+                animation_queue.shift()() //调用dom操作函数
+                setTimeout(arguments.callee, interval)
+            }
+        })
+    }
+    function search(){
+        var val = $("#search_input").val().trim()
+        /*
+        $("#container > .box").removeClass("highlight")
+        var str= `#container > .box:contains(${val})`
+        var $target = $(str)
+        $target.addClass("highlight")
+        */
+        $("#container > .box").removeClass("highlight")
+        $(`#container > .box:contains(${val})`).addClass("highlight")
+    }
+    //bubble_sort_demo()
+    init();
+</script>
+</body>
+</html>

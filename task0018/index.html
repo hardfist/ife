@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .box{
+            width: 40px;
+            height: 40px;
+            background: red;
+            color: white;
+            font-size: 16px;
+            line-height: 40px;
+            text-align: center;
+            display: inline-block;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+<input id="input" type="text">
+<button id="push_left">左侧入</button>
+<button id="push_right">右侧入</button>
+<button id="pop_left">左侧出</button>
+<button id="pop_right">右侧出</button>
+<div id="queue">
+</div>
+</body>
+<script src="//cdn.bootcss.com/jquery/2.2.1/jquery.js"></script>
+<script>
+    var rInteger = /^[0-9]\d*$/
+    $("#push_left").on("click",function(){
+        if(!rInteger.test($("#input").val())){
+            alert("输入的数字必须为整数")
+            return
+        }
+        $("<div></div>").addClass("box").text($("#input").val()).prependTo($("#queue"))
+    })
+    $("#push_right").on("click",function(){
+        if(!rInteger.test($("#input").val())){
+            alert("输入的数字必须为整数")
+            return
+        }
+        $("<div></div>").addClass("box").text($("#input").val()).appendTo($("#queue"))
+    })
+    $("#pop_left").on("click",function(){
+        $("#queue .box:first-child").each(function(i,el){
+            alert($(el).text())
+        }).remove()
+    })
+    $("#pop_right").on("click",function(){
+        $("#queue .box:last-child").each(function(i,el){
+            alert($(el).text())
+        }).remove()
+    })
+</script>
+</html>

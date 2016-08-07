@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        #container {
+            position: relative;
+            height: 450px;
+        }
+
+        #x_axis {
+            position: absolute;
+            left: 40px;
+            top: 0;
+        }
+
+        #y_axis {
+            position: absolute;
+            left: 0;
+            top: 40px;
+        }
+
+        #x_axis, #y_axis {
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        #board_wrapper {
+            position: absolute;
+            left: 40px;
+            top: 40px;
+            border: 2px solid black;
+        }
+
+        #x_axis td, th {
+            width: 40px;
+            height: 40px;
+            text-align: center;
+        }
+
+        #y_axis td, th {
+            width: 40px;
+            height: 40px;
+            vertical-align: center;
+            text-align: center;
+        }
+
+        #board {
+            border-collapse: collapse;
+            width: 400px;
+            height: 400px;
+            float: left;
+        }
+
+        #board td, th {
+            border: 2px solid #eaeaea;
+            width: 40px;
+            height: 40px;
+        }
+
+        #board tr:first-child td {
+            border-top: none
+        }
+
+        #board tr:last-child td {
+            border-bottom: none;
+        }
+
+        #board tr td:first-child {
+            border-left: none
+        }
+
+        #board tr td:last-child {
+            border-right: none;
+        }
+
+        #ship {
+            background: red;
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            transition: all 1s;
+        }
+
+        #ship #direction {
+            background: blue;
+            position: absolute;
+            width: 40px;
+            height: 10px;
+            left: 0;
+            top: 0;
+        }
+
+        #part2 {
+            margin-left: 40px;
+            margin-top: 40px;
+            padding-top: 20px;
+        }
+
+        .commands_wrap {
+            position: absolute;
+            font-size: 16px;
+        }
+
+        #commands_input {
+            background: black;
+            color: white;
+            margin-left: 20px;
+            line-height: 20px;
+        }
+
+        #line_num {
+            width: 20px;
+            height: 100%;
+            background: #eaeaea;
+            color: white;
+            position: absolute;
+            overflow: hidden;
+        }
+
+        #instructions{
+            margin-bottom: 20px;
+        }
+        #instructions button{
+            font-size: 20px;
+            margin-right: 20px;
+        }
+        .num {
+            height: 20px;
+            line-height: 20px;
+            font-size: 14px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .warning {
+            border-radius: 50%;
+            background: red;
+        }
+
+        .wall {
+            background: #c3c3c3;
+        }
+        #brush_color{
+            width: 3em;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+<div id="container">
+    <table id="x_axis">
+        <tr>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+            <td>4</td>
+            <td>5</td>
+            <td>6</td>
+            <td>7</td>
+            <td>8</td>
+            <td>9</td>
+            <td>10</td>
+        </tr>
+    </table>
+    <table id="y_axis">
+        <tr>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>3</td>
+        </tr>
+        <tr>
+            <td>4</td>
+        </tr>
+        <tr>
+            <td>5</td>
+        </tr>
+        <tr>
+            <td>6</td>
+        </tr>
+        <tr>
+            <td>7</td>
+        </tr>
+        <tr>
+            <td>8</td>
+        </tr>
+        <tr>
+            <td>9</td>
+        </tr>
+        <tr>
+            <td>10</td>
+        </tr>
+    </table>
+    <div id="board_wrapper">
+        <div id="ship">
+            <div id="direction">
+
+            </div>
+        </div>
+        <table id="board">
+        </table>
+    </div>
+</div>
+<section id="part2">
+    <div id="instructions">
+        <button id="execute">执行</button>
+        <button id="refresh">Refresh</button>
+        <button id="build">Build</button>
+        <input  id="brush_color" type="text">
+        <button id="brush">Brush</button>
+        <button id="drap_pic">Draw</button>
+        <button id="move_to">寻路</button>
+    </div>
+    <div class="commands_wrap">
+        <div scroll="no" id="line_num">
+        </div>
+        <textarea id="commands_input"></textarea>
+    </div>
+</section>
+<script src="../../bower_components/jquery/dist/jquery.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

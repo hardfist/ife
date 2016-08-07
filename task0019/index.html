@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #container > .box {
+            background: red;
+            width: 40px;
+            height: 40px;
+            margin: 1px;
+            display: inline-block;
+            text-align: center;
+            line-height: 40px;
+            vertical-align: bottom;
+        }
+
+        .highlight {
+            background: orange;
+        }
+    </style>
+</head>
+<body>
+<input id="input" type="text">
+<button id="push_left">左输入</button>
+<button id="push_right">右输入</button>
+<button id="pop_left">左输出</button>
+<button id="pop_right">右输出</button>
+<button id="random_insert">随机插入</button>
+<button id="clear">清除</button>
+<button id="bubble_sort">冒泡排序</button>
+<div id="container"></div>
+<!--<script src="//cdn.bootcss.com/jquery/2.2.1/jquery.js
+"></script>-->
+<script src="../../bower_components/jquery/dist/jquery.js"></script>
+<script>
+    var rNumber = /^([1-9][0-9]|100)$/
+    // 元素属性
+    var queue = [];
+    // dom操作函数队列
+    var animation_queue = [];
+    function render() {
+        $("#container").empty();
+        for (var i = 0; i < queue.length; i++) {
+            $("<div></div>").addClass("box").height(queue[i]).appendTo($("#container"))
+        }
+    }
+    function validate() {
+        var val = $("#input").val()
+        if (queue.length >= 60) {
+            alert("数目不能超过60个")
+            return false
+        }
+        if (!rNumber.test(val)) {
+            alert("输入的数必须在10-100之间:", val)
+            return false
+        }
+        return true
+    }
+    // 初始化
+    function init() {
+        $("button").on("click", function () {
+            var val = $("#input").val()
+            switch (this.id) {
+                case "push_left":
+                    if(!validate()) return
+                    queue.unshift(val)
+                    render();
+                    break;
+                case "push_right":
+                    if(!validate()) return
+                    queue.push(val)
+                    render();
+                    break;
+                case "pop_left":
+                    queue.shift();
+                    render();
+                    break;
+                case "pop_right":
+                    queue.splice(-1);
+                    render();
+                    break;
+                case "clear":
+                    queue = [];
+                    render();
+                    break;
+                case "random_insert":
+                    random_insert()
+                    render();
+                    break;
+                case "bubble_sort":
+                    bubble_sort(queue, identical, swapDiv);
+                    run_animation()
+                    break;
+                default:
+                    throw new Error("Unknown button:", this.id)
+
+            }
+        })
+    }
+    //随机插入一些元素,以用于演示排序动画
+    function random_insert() {
+        queue = [];
+        for (var i = 0; i < 10; i++) {
+            queue[i] = Math.floor(Math.random() * 90) + 10;
+        }
+    }
+    function swapDiv(a, i, j) {
+        var tmp = a[i]
+        a[i] = a[j]
+        a[j] = tmp
+        animation_queue.push(function () {
+            var $container = $("#container > .box")
+            var tmp = $($container[i]).height()
+            $($container[i]).height($($container[j]).height())
+            $($container[j]).height(tmp)
+        })
+    }
+    /**
+     * 冒泡排序
+     * @param a: 数组
+     * @param valueOf 数组元素的值函数,默认为identical
+     * @param swap_fn 数组内的交换函数
+     */
+    function bubble_sort(a, valueOf, swap_fn) {
+        if (typeof  valueOf == 'undefined') {
+            valueOf = identical
+        }
+        if (typeof  swap_fn == 'undefined') {
+            swap_fn = swap
+        }
+        for (var i = 0; i < a.length; i++) {
+            for (var j = i; j > 0 && valueOf(a[j]) < valueOf(a[j - 1]); j--) {
+                swap_fn(a, j - 1, j);
+            }
+        }
+    }
+    // 默认值函数
+    function identical(x) {
+        return x;
+    }
+    // 默认交换函数
+    function swap(a, i, j) {
+        var tmp = a[i];
+        a[i] = a[j];
+        a[j] = tmp;
+
+    }
+    // 测试排序
+    function bubble_sort_demo() {
+        var arr = [];
+        for (var i = 0; i < 20; i++) {
+            arr[i] = Math.floor(Math.random() * 100)
+        }
+        console.log(arr);
+        bubble_sort(arr);
+        console.log(arr)
+    }
+    function run_animation() {
+        var interval = 100;
+        var timer = setTimeout(function () {
+            if (animation_queue.length > 0) {
+                animation_queue.shift()() //调用dom操作函数
+                setTimeout(arguments.callee, interval)
+            }
+        })
+    }
+    //bubble_sort_demo()
+    init();
+</script>
+</body>
+</html>

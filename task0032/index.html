@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #generator label{
+            font-size: 20px;
+            margin-right: 10px;
+            float: left;
+        }
+        #generator input[type="button"]{
+            font-size: 20px;
+        }
+        #container .wrapper{}
+        #container .wrapper {
+            margin-top: 60px;
+            float: left;
+        }
+
+        #container label {
+            display: inline-block;
+            width: 100px;
+            text-align: right;
+            font-size: 20px;
+        }
+
+        #container input {
+            height: 40px;
+            width: 400px;
+            border-radius: 5px;
+            border: 2px solid grey;
+            margin-left: 40px;
+            font-size: 20px;
+        }
+
+        #container .prompt {
+            position: absolute;
+            display: inline-block;
+            height: 40px;
+            margin-left: -400px;
+            margin-top: 50px;
+            font-size: 20px;
+        }
+
+        #container input.error {
+            border: 2px solid red;
+        }
+
+        #container input.success {
+            border: 2px solid green;
+        }
+
+        #container .prompt.error {
+            color: red;
+        }
+
+        #container .prompt.success {
+            color: green;
+        }
+        #container .submit{
+            font-size: 20px;
+            margin-top: 10px;
+            padding: 10px 15px;
+            background: #5487c4;
+            margin-left: 470px;
+        }
+        #container.style1 input{
+            background: antiquewhite;
+        }
+        #container.style2 input{
+            background: aqua;
+        }
+    </style>
+</head>
+<body>
+<div id="generator">
+</div>
+<form id="container">
+</form>
+<script src="../../bower_components/jquery/dist/jquery.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

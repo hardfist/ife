@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        #container {
+            position: relative;
+            height: 450px;
+        }
+
+        #x_axis {
+            position: absolute;
+            left: 40px;
+            top: 0;
+        }
+
+        #y_axis {
+            position: absolute;
+            left: 0;
+            top: 40px;
+        }
+
+        #x_axis, #y_axis {
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        #board_wrapper {
+            position: absolute;
+            left: 40px;
+            top: 40px;
+            border: 2px solid black;
+        }
+
+        #x_axis td, th {
+            width: 40px;
+            height: 40px;
+            text-align: center;
+        }
+
+        #y_axis td, th {
+            width: 40px;
+            height: 40px;
+            vertical-align: center;
+            text-align: center;
+        }
+
+        #board {
+            border-collapse: collapse;
+            width: 400px;
+            height: 400px;
+            float: left;
+        }
+
+        #board td, th {
+            border: 2px solid #eaeaea;
+            width: 40px;
+            height: 40px;
+        }
+
+        #board tr:first-child td {
+            border-top: none
+        }
+
+        #board tr:last-child td {
+            border-bottom: none;
+        }
+
+        #board tr td:first-child {
+            border-left: none
+        }
+
+        #board tr td:last-child {
+            border-right: none;
+        }
+
+        #ship {
+            background: red;
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            transition: all 1s;
+        }
+
+        #ship #direction {
+            background: blue;
+            position: absolute;
+            width: 40px;
+            height: 10px;
+            left: 0;
+            top: 0;
+        }
+
+        #command{
+            margin-left: 50px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+<div id="container">
+    <table id="x_axis">
+        <tr>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+            <td>4</td>
+            <td>5</td>
+            <td>6</td>
+            <td>7</td>
+            <td>8</td>
+            <td>9</td>
+            <td>10</td>
+        </tr>
+    </table>
+    <table id="y_axis">
+        <tr>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>3</td>
+        </tr>
+        <tr>
+            <td>4</td>
+        </tr>
+        <tr>
+            <td>5</td>
+        </tr>
+        <tr>
+            <td>6</td>
+        </tr>
+        <tr>
+            <td>7</td>
+        </tr>
+        <tr>
+            <td>8</td>
+        </tr>
+        <tr>
+            <td>9</td>
+        </tr>
+        <tr>
+            <td>10</td>
+        </tr>
+    </table>
+    <div id="board_wrapper">
+        <div id="ship">
+            <div id="direction">
+
+            </div>
+        </div>
+        <table id="board">
+
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+        </table>
+    </div>
+</div>
+<input type="text" id="command">
+<button id="execute">执行</button>
+<script src="../../bower_components/jquery/dist/jquery.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

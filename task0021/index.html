@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        label{
+            font-size: 30px;
+        }
+        #tag_input{
+            font-size: 20px;
+        }
+        .box {
+            background: #8abdf6;
+            margin: 5px 5px 0 0 ;
+            text-align: center;
+            padding: 1px;
+            display: inline-block;
+            height: 40px;
+            min-width: 40px;
+            line-height: 40px;
+            font-size: 30px;
+            vertical-align: middle;
+            color: white;
+        }
+        .tag{
+            background: #8abdf6;
+        }
+        .hobby{
+            background: #f6c37c;
+        }
+        #tag_list {
+            margin: 20px;
+            font-size: 30px;
+        }
+        .delete {
+            background: #e33027
+        }
+
+        section {
+            margin: 40px;
+        }
+
+        #confirm_btn {
+            display: block;
+        }
+
+    </style>
+</head>
+<body>
+<section id="tag_sec">
+    <label for="tag_input">Tag:<input id="tag_input" type="text"></label>
+    <div id="tag_list">
+
+    </div>
+</section>
+
+<section id="hobby_sec">
+    <textarea id="hobby_input">
+    </textarea>
+    <button id="confirm_btn">确认兴趣爱好</button>
+    <div id="hobby_list">
+    </div>
+</section>
+<!--<script src="//cdn.bootcss.com/jquery/2.2.1/jquery.js
+"></script>-->
+<!--<script src="main.js"></script>-->
+<script src="../../bower_components/jquery/dist/jquery.js"></script>
+<script>
+    var rSplit = /\s+|\s*[,\uFF0C\u3001]\s*/ //分割符正则空格,全角半角逗号,顿号,回车,tab
+    var keycodes = []
+    var tag_list = []
+    var hobby_list = []
+    $("#tag_input").keydown(function (evt) {
+        if ([188, 13, 32].indexOf(evt.which) != -1) {
+            generate_tag()
+        }
+    })
+    //生成tag
+    function generate_tag() {
+        var tags = $("#tag_input").val().split(rSplit).map(function (word) {
+            return word.trim()
+        }).filter(function (word) {
+            return word != ""
+        })
+        tags.forEach(function (tag) {
+            if (tag_list.indexOf(tag) == -1) {
+                tag_list.push(tag)
+                if (tag_list.length > 10) {
+                    tag_list.shift()
+                }
+            }
+        })
+        render_tags()
+    }
+
+    //渲染tag_list
+    function render_tags() {
+        $("#tag_list").empty()
+        tag_list.forEach(function (el) {
+            $("<div></div>").addClass("box tag").text(el).appendTo($("#tag_list"))
+        })
+    }
+
+    // 生成hobbies
+    function generate_hobby(){
+        var hobbies = $("#hobby_input").val().split(rSplit).map(function(word){
+            return word.trim()
+        }).filter(function( word ){
+            return word != ""
+        })
+        hobbies.forEach(function(hobby){
+            if(hobby_list.indexOf(hobby) == -1){
+                hobby_list.push(hobby)
+                if(hobby_list.length > 10){
+                    hobby_list.shift()
+                }
+            }
+        })
+    }
+
+    //渲染hobby_list
+    function render_hobbies(){
+        $("#hobby_list").empty()
+        hobby_list.forEach(function(el){
+            $("<div></div>").addClass("box hobby").text(el).appendTo($("#hobby_list"))
+        })
+    }
+    //初始化
+    function init() {
+        var orig = null;
+        $(document).on("mouseenter mouseout click", "#tag_list > .tag", function (evt) {
+            console.log(evt.type)
+            if (evt.type == "mouseenter") {
+                orig = $(this).text()
+                $(this).addClass("delete").text("点击删除 " + orig)
+            } else if (evt.type == "mouseout") {
+                $(this).removeClass("delete").text(orig)
+            } else if (evt.type == "click") {
+                var index = tag_list.indexOf(orig)
+                tag_list.splice(index, 1)
+                render_tags()
+            }
+        })
+        $("#confirm_btn").on("click",function(evt){
+            generate_hobby()
+            render_hobbies()
+        })
+    }
+    console.log('version:', $.fn.jquery)
+    init()
+</script>
+</body>
+</html>
