@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>地图</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="kingsman-bg">
+    <table id="kingsman-map">
+
+    </table>
+    <div id="kingsman-player">
+    </div>
+    <div id="kingsman-target">
+    </div>
+    <div id="kingsman-game-state">
+        <div id="kingsman-game-state-level"></div>
+    </div>
+</div>
+<div id="kingsman-control">
+    <select id="duration">
+        <option value="10">极速</option>
+        <option value="50" selected="selected">快速</option>
+        <option value="100">常速</option>
+        <option value="1000">慢速</option>
+    </select>
+    <select id="search_type">
+        <option value="bfs">bfs</option>
+        <option value="dfs">dfs</option>
+        <option value="astar" selected="selected">astar</option>
+    </select>
+    <select id="size">
+        <option value="20" selected="selected">20x20</option>
+        <option value="30">30x30</option>
+        <option value="100">100x100</option>
+    </select>
+    <button id="goto_target">自动寻路</button>
+    <button id="next_level">下一关</button>
+    <button id="pause_restart" data-type="pause">暂停</button>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

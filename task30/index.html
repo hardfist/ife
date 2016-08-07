@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="../bower_components/angular/angular.js"></script>
+</head>
+<body>
+<div class="wrapper" ng-controller="MainCtrl">
+    <form name="profile" novalidate>
+        <div ng-repeat="form in forms">
+            <div valid-form ng-model="user.name" title="form.title"></div>
+        </div>
+    </form>
+</div>
+<script src="index.js"></script>
+</body>
+</html>

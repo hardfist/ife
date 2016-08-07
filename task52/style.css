@@ -1,0 +1,47 @@
+*{
+    box-sizing: border-box;
+}
+body{
+    width: 1240px;
+    margin: 20px auto;
+    padding-right: 10px;
+}
+#kingsman-bg{
+    margin-top: 50px;
+    display: block;
+    position: relative;
+}
+table,tr,td{
+    border-collapse: collapse;
+    border: 1px solid #eaeaea;
+}
+td{
+    width: 20px;
+    height: 20px;
+}
+td[data-type="empty"]{
+}
+td[data-type="wall"]{
+    background: #000;
+}
+
+#kingsman-player{
+    background: #0f0;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    transition: 0.1s;
+}
+#kingsman-target{
+    background: #ff0;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    transition: 0.1s;
+}
+#kingsman-game-state{
+    position: absolute;
+    top: -40px;
+    font-size: 24px;
+    font-weight: bold;
+}

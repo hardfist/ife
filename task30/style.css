@@ -1,0 +1,80 @@
+@import "/styles/reset.css";
+body,
+ul,
+li,
+p {
+  margin: 0;
+  padding: 0;
+}
+.clearfix::before,
+.clearfix::after {
+  content: '';
+  display: block;
+}
+.clearfix::after {
+  clear: both;
+}
+.center-block {
+  margin: 0 auto;
+}
+.block {
+  display: block;
+}
+.inline-block {
+  display: inline-block;
+}
+.inline {
+  display: inline;
+}
+.container {
+  width: 1200px;
+  margin: 0 auto;
+}
+.wrapper {
+  display: flex;
+  justify-content: center;
+}
+.wrapper form {
+  height: 80px;
+  display: inline-block;
+  text-align: center;
+  margin-top: 40px;
+}
+.wrapper form.ng-pristine .help,
+.wrapper form.pristine .help {
+  color: #a8a8a8;
+}
+.wrapper form.ng-invalid .help,
+.wrapper form.invalid .help {
+  color: #f00;
+}
+.wrapper form.ng-valid .help,
+.wrapper form.valid .help {
+  color: #0f0;
+}
+.wrapper form input[type='text'] {
+  width: 300px;
+  height: 40px;
+  border-radius: 5px;
+  outline: 0;
+}
+.wrapper form input[type='text'].ng-pristine {
+  border: 2px solid #a8a8a8;
+}
+.wrapper form input[type='text'].ng-dirty.ng-invalid {
+  border: 2px solid red;
+}
+.wrapper form input[type='text'].ng-dirty.ng-valid {
+  border: 2px solid green;
+}
+.wrapper form button {
+  background: #2f79ba;
+  border: 2px solid #fff;
+  color: #fff;
+  width: 100px;
+  height: 50px;
+  border-radius: 5px;
+}
+.wrapper.wrapper2 .help p {
+  display: none;
+}

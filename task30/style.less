@@ -1,0 +1,59 @@
+@import "../styles/global";
+@pristine-color: #a8a8a8;
+@invalid-color: #f00;
+@valid-color: #0f0;
+.wrapper {
+  display: flex;
+  justify-content: center;
+  form {
+    height: 80px;
+    display: inline-block;
+    text-align: center;
+    margin-top: 40px;
+    &.ng-pristine,&.pristine{
+      .help{
+        color: @pristine-color
+      }
+    }
+    &.ng-invalid,&.invalid{
+      .help{
+        color: @invalid-color;
+      }
+    }
+    &.ng-valid,&.valid{
+      .help{
+        color: @valid-color;
+      }
+    }
+    input[type='text'] {
+      width: 300px;
+      height: 40px;
+      border-radius: 5px;
+      outline: 0;
+      &.ng-pristine{
+        border: 2px solid #a8a8a8;
+      }
+      &.ng-dirty.ng-invalid{
+        border: 2px solid red;
+      }
+      &.ng-dirty.ng-valid{
+        border: 2px solid green;
+      }
+    }
+    button {
+      background: #2f79ba;
+      border: 2px solid #fff;
+      color: #fff;
+      width: 100px;
+      height: 50px;
+      border-radius: 5px;
+    }
+  }
+}
+.wrapper.wrapper2{
+  .help{
+    p {
+      display: none;
+    }
+  }
+}
